@@ -93,3 +93,4 @@ ENV/
 
 # verify output
 verify_output.txt
+verify_summary.txt
