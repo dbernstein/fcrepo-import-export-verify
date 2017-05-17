@@ -3,12 +3,13 @@ from csv import DictWriter
 import logging
 from datetime import datetime
 from rdflib.compare import isomorphic
-from fcrepo_verify.verify import *
+from fcrepo_verify.verify import Config, FcrepoWalker, LocalWalker, \
+    FedoraResource, LocalResource, sys, EXT_BINARY_EXTERNAL
 
 
 class CredentialsParamType(click.ParamType):
-    '''A custom credentials parameter type that produces a tuple(username, password)
-    from a username:password formatted string.'''
+    '''A custom credentials parameter type that produces a
+    tuple(username, password) from a username:password formatted string.'''
 
     name = 'credentials'
 
@@ -20,7 +21,8 @@ class CredentialsParamType(click.ParamType):
             else:
                 raise ValueError
         except ValueError:
-            self.fail('Credentials must be given in the form user:password.', param, ctx)
+            self.fail('Credentials must be given in the form user:password.',
+                      param, ctx)
 
 # ============================================================================
 # Main function
@@ -28,18 +30,26 @@ class CredentialsParamType(click.ParamType):
 
 
 @click.command()
-@click.option('--csv', '-c', help='Path to CSV file (to store summary data).', default='verify_summary.txt')
-@click.option('--user', '-u', help='Repository credentials in the form of username:password', type=CredentialsParamType(), default=None)
-@click.option('--log', '-l', help='Path to log file (to store details of verification run).', default='verify_output.txt')
-@click.option('--loglevel', '-g', help='Level of information to output (INFO, WARN, DEBUG, ERROR)', default='INFO')
-@click.option('--verbose', '-v', help='Show detailed info for each resource checked', is_flag=True, default=False)
+@click.option('--csv', '-c', help='Path to CSV file (to store summary data).',
+              default='verify_summary.txt')
+@click.option('--user', '-u',
+              help='Repository credentials in the form of username:password',
+              type=CredentialsParamType(), default=None)
+@click.option('--log', '-l',
+              help='Path to log file (to store details of verification run).',
+              default='verify_output.txt')
+@click.option('--loglevel', '-g',
+              help='Level of information to output (INFO, WARN, DEBUG, ERROR)',
+              default='INFO')
+@click.option('--verbose', '-v',
+              help='Show detailed info for each resource checked',
+              is_flag=True, default=False)
 @click.argument('configfile', type=click.Path(exists=True), required=True)
 def main(configfile, csv, user, log, loglevel, verbose):
     """This utility compares two sets of Fedora resources
        (in live Fedora server or serialized to disk) and verify their sameness
        using CONFIGFILE (i.e. path to an import/export config file)."""
-    #click.echo('success!')
-
+    # click.echo('success!')
 
     # Set up csv file, if specified
     if csv:

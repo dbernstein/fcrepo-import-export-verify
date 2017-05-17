@@ -19,8 +19,10 @@ setup(
     url='https://github.com/dbernstein/fcrepo-import-export-verify',
     license='BSD',
     author='Josh Westgard, Bethany Seeger, Youn Noh, Daniel Bernstein',
-    author_email='westgard@umd.edu, bseeger@amherst.edu, youn.noh@yale.edu, dbernstein@duraspace.org',
-    description='Verifies the results of import and export operatations to and from Fedora repositories.',
+    author_email='westgard@umd.edu, bseeger@amherst.edu, youn.noh@yale.edu, '
+                 'dbernstein@duraspace.org',
+    description='Verifies the results of import and export operatations to '
+                'and from Fedora repositories.',
     long_description=__doc__,
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
