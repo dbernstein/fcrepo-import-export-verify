@@ -4,4 +4,4 @@ python:
 before_script:
     - flake8 .
 script:
-    python verify.py -h
+   fcrepo-verify --help 
