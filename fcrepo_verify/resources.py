@@ -4,9 +4,9 @@ from rdflib import Graph
 from re import search
 import requests
 from urllib.parse import urlparse, quote
-
 from .constants import EXT_BINARY_INTERNAL, EXT_BINARY_EXTERNAL, \
     LDP_NON_RDF_SOURCE
+from .utils import get_data_dir
 
 
 class Resource(object):
@@ -15,6 +15,7 @@ class Resource(object):
         self.config = config
         self.origpath = inputpath
         self.logger = logger
+        self.data_dir = get_data_dir(config)
 
 
 class FedoraResource(Resource):
@@ -29,17 +30,17 @@ class FedoraResource(Resource):
             self.metadata = self.origpath + "/fcr:metadata"
             if self.external:
                 self.destpath = quote(
-                    (self.config.dir + self.relpath + EXT_BINARY_EXTERNAL)
+                    (self.data_dir + self.relpath + EXT_BINARY_EXTERNAL)
                     )
             else:
                 self.destpath = quote(
-                    (self.config.dir + self.relpath + EXT_BINARY_INTERNAL)
+                    (self.data_dir + self.relpath + EXT_BINARY_INTERNAL)
                     )
             self.lookup_sha1()
         else:
             self.type = "rdf"
             self.destpath = quote(
-                (self.config.dir + self.relpath + self.config.ext)
+                (self.data_dir + self.relpath + self.config.ext)
                 )
             response = requests.get(self.origpath, auth=self.config.auth)
             if response.status_code == 200:
@@ -80,9 +81,10 @@ class LocalResource(Resource):
     def __init__(self, inputpath, config, logger):
         Resource.__init__(self, inputpath, config, logger)
         self.location = "local"
-        self.relpath = self.origpath[len(config.dir):]
+        self.relpath = self.origpath[len(self.data_dir):]
         urlinfo = urlparse(config.repo)
         config_repo = urlinfo.scheme + "://" + urlinfo.netloc
+
         if self.is_binary():
             self.type = "binary"
             self.external = False
@@ -97,7 +99,7 @@ class LocalResource(Resource):
                         self.relpath[:-len(EXT_BINARY_INTERNAL)]
 
             self.sha1 = self.calculate_sha1()
-        elif self.origpath.startswith(config.dir) and \
+        elif self.origpath.startswith(self.data_dir) and \
                 self.origpath.endswith(config.ext):
             self.type = "rdf"
             self.destpath = config_repo + self.relpath[:-len(config.ext)]
