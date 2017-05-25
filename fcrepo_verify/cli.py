@@ -26,7 +26,7 @@ class CredentialsParamType(click.ParamType):
 
 
 @click.command()
-@click.option('--outputdir', '-o', help='Path to director for output files '
+@click.option('--outputdir', '-o', help='Path to directory for output files '
                                         'such as csv reports of the '
                                         'verification process.',
               default='output')
