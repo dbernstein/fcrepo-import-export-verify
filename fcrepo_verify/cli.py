@@ -53,8 +53,8 @@ def main(configfile, outputdir, user, logdir, loglevel, verbose):
     """
     level = getattr(logging, loglevel.upper(), None)
     loggers = createLoggers(level, logdir)
+
     # Create configuration object and setup import/export iterators
-    csv = None
     config = Config(configfile, user, loggers, outputdir, verbose)
     # Create and execute verifier logic
     verifier = FedoraImportExportVerifier(config, loggers)
