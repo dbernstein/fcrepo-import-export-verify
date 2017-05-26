@@ -2,8 +2,7 @@
 Verifies the results of import and export operations in Fedora repositories.
 """
 from setuptools import find_packages, setup
-
-exec(open('fcrepo_verify/version.py').read())
+from fcrepo_verify.version import __version__
 
 dependencies = ['click',
                 'isodate',
