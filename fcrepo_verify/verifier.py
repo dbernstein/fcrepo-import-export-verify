@@ -153,7 +153,8 @@ class FedoraImportExportVerifier:
                                 "{0} triples".format(len(original.graph))
                         else:
                             verified = False
-                            verification = ("{0}+{1} triples - mismatch".format(
+                            verification = ("{0}+{1} triples - mismatch"
+                                            .format(
                                                 len(original.graph),
                                                 len(destination.graph)
                                                 ))
@@ -175,7 +176,6 @@ class FedoraImportExportVerifier:
                     failure_count += 1
                 else:
                     success_count += 1
-
 
                 if config.verbose:
                     logger.info("  rel  => {}".format(original.relpath))
