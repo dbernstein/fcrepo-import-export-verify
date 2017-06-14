@@ -13,10 +13,11 @@ from .utils import get_data_dir, replace_strings_in_file
 
 class Resource(object):
     """Common properties of any resource."""
-    def __init__(self, inputpath, config, logger):
+    def __init__(self, inputpath, config, logger, console):
         self.config = config
         self.origpath = inputpath
         self.logger = logger
+        self.console = console
         self.data_dir = get_data_dir(config)
 
     def fetch_headers(self, origpath, auth):

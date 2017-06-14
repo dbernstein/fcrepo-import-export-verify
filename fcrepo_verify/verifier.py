@@ -108,7 +108,8 @@ class FedoraImportExportVerifier:
 
                     # path begins with repository base = fedora resource
                     if filepath.startswith(config.repobase):
-                        original = FedoraResource(filepath, config, logger)
+                        original = FedoraResource(filepath, config, logger,
+                                                  console)
                         if not original.is_reachable:
                             verified = False
                             verification = "original not reachable"
@@ -137,7 +138,8 @@ class FedoraImportExportVerifier:
                     elif filepath.startswith(config.dir):
                         destination = FedoraResource(original.destpath,
                                                      config,
-                                                     loggers.file_only)
+                                                     loggers.file_only,
+                                                     loggers.console)
 
                     # analyze the resource type
                     if original.type == "binary":
