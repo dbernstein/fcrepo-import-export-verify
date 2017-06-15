@@ -26,8 +26,8 @@ class Resource(object):
 
 class FedoraResource(Resource):
     """Properties and methods for a resource in a Fedora repository."""
-    def __init__(self, inputpath, config, logger):
-        Resource.__init__(self, inputpath, config, logger)
+    def __init__(self, inputpath, config, logger, console):
+        Resource.__init__(self, inputpath, config, logger, console)
         self.location = "fedora"
         self.relpath = urlparse(self.origpath).path.rstrip("/")
         head_response = self.fetch_headers(self.origpath, self.config.auth)
@@ -97,8 +97,8 @@ class FedoraResource(Resource):
 
 class LocalResource(Resource):
     """Properties and methods for a resource serialized to disk."""
-    def __init__(self, inputpath, config, logger):
-        Resource.__init__(self, inputpath, config, logger)
+    def __init__(self, inputpath, config, logger, console):
+        Resource.__init__(self, inputpath, config, logger, console)
         self.location = "local"
         self.relpath = self.origpath[len(self.data_dir):]
 

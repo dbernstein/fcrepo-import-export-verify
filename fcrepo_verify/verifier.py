@@ -115,7 +115,8 @@ class FedoraImportExportVerifier:
                             verification = "original not reachable"
                     # path begins with local root dir = local resource
                     elif filepath.startswith(config.dir):
-                        original = LocalResource(filepath, config, logger)
+                        original = LocalResource(filepath, config, logger,
+                                                 console)
                     # any other path indicates an error
                     else:
                         # TODO: Consider handling this error and continuing
@@ -134,7 +135,8 @@ class FedoraImportExportVerifier:
                     if filepath.startswith(config.repobase):
                         destination = LocalResource(original.destpath,
                                                     config,
-                                                    loggers.file_only)
+                                                    loggers.file_only,
+                                                    loggers.console)
                     elif filepath.startswith(config.dir):
                         destination = FedoraResource(original.destpath,
                                                      config,
